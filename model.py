@@ -22,9 +22,46 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
+    
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<User user_id={self.user_id} email={self.email}>"
 
 
 # Put your Movie and Rating model classes here.
+
+class Movie(db.Model):
+    """User of ratings website."""
+
+    __tablename__ = "movie"
+
+    movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    title = db.Column(db.String(64), nullable=True)
+    released_at = db.Column(db.DateTime, nullable=True)
+    imdb_url = db.Column(db.String(600), nullable=True)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<User movie_id={self.movie_id} title={self.title}>"
+    
+
+
+class Rating(db.Model):
+    """User of ratings website."""
+
+    __tablename__ = "rating"
+
+    rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    movie_id = db.Column(db.Integer, nullable=True)
+    user_id = db.Column(db.Integer, nullable=True)
+    score = db.Column(db.Integer, nullable=True)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<User rating_id={self.rating_id} score={self.score}>"
 
 
 ##############################################################################
@@ -34,7 +71,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:HelloG1T@localhost:5432/ratings'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
